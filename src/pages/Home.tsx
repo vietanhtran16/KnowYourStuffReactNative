@@ -1,25 +1,35 @@
 import React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { Title, TextInput } from "react-native-paper";
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    padding: 20,
-  },
-});
+import { ScrollView } from "react-native";
+import { Portal, FAB } from "react-native-paper";
+import { AddPlatformModal } from "../components/AddPlatformModal";
 
 export const Home = () => {
+  const [isFabOpen, setIsFabOpen] = React.useState(false);
+  const onStateChange = ({ open }: { open: boolean }) => setIsFabOpen(open);
+
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
   return (
     <ScrollView>
-      <View style={styles.inputContainer}>
-        <Title>Add Platform</Title>
-        <TextInput mode="outlined" label="Name" placeholder="Name" />
-        <TextInput
-          mode="outlined"
-          label="Description"
-          placeholder="Description"
+      <Portal>
+        <AddPlatformModal
+          visible={isDialogOpen}
+          onDismiss={() => setIsDialogOpen(false)}
         />
-      </View>
+        <FAB.Group
+          open={isFabOpen}
+          visible
+          icon="lightbulb-outline"
+          actions={[
+            {
+              icon: "plus",
+              label: "Add platform",
+              onPress: () => setIsDialogOpen(true),
+            },
+          ]}
+          onStateChange={onStateChange}
+        ></FAB.Group>
+      </Portal>
     </ScrollView>
   );
 };
