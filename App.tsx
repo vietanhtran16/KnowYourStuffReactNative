@@ -1,11 +1,16 @@
 import { StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Home } from "./src/Home";
+import { Home } from "./src/pages/Home";
+import { Provider as PaperProvider } from "react-native-paper";
+import Header from "./src/components/Header";
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      <Home />
+      <PaperProvider>
+        <Header />
+        <Home />
+      </PaperProvider>
     </SafeAreaProvider>
   );
 }
