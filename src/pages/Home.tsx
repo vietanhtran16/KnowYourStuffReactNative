@@ -1,27 +1,25 @@
 import React from "react";
-import { View, Text, Image, ScrollView, TextInput } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Title, TextInput } from "react-native-paper";
+
+const styles = StyleSheet.create({
+  inputContainer: {
+    padding: 20,
+  },
+});
 
 export const Home = () => {
   return (
     <ScrollView>
-      <Text>Some text</Text>
-      <View>
-        <Text>Some more text</Text>
-        <Image
-          source={{
-            uri: "https://reactnative.dev/docs/assets/p_cat2.png",
-          }}
-          style={{ width: 200, height: 200 }}
+      <View style={styles.inputContainer}>
+        <Title>Add Platform</Title>
+        <TextInput mode="outlined" label="Name" placeholder="Name" />
+        <TextInput
+          mode="outlined"
+          label="Description"
+          placeholder="Description"
         />
       </View>
-      <TextInput
-        style={{
-          height: 40,
-          borderColor: "gray",
-          borderWidth: 1,
-        }}
-        defaultValue="You can type in me"
-      />
     </ScrollView>
   );
 };
