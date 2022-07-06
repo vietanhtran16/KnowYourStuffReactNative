@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Dialog, TextInput, Button } from "react-native-paper";
+import { useMutation } from "react-query";
+import { createPlatform, NewPlatform } from "../services/api";
 
 interface Props {
   visible: boolean;
@@ -7,8 +9,11 @@ interface Props {
 }
 
 export const AddPlatformModal: React.FC<Props> = ({ visible, onDismiss }) => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState(""); // merge this and description into one since they change together
   const [description, setDescription] = useState("");
+  const { mutate, isLoading } = useMutation((newPlatform: NewPlatform) =>
+    createPlatform(newPlatform)
+  );
 
   return (
     <Dialog visible={visible} onDismiss={onDismiss}>
@@ -31,9 +36,11 @@ export const AddPlatformModal: React.FC<Props> = ({ visible, onDismiss }) => {
         <Dialog.Actions>
           <Button onPress={onDismiss}>Cancel</Button>
           <Button
+            disabled={isLoading}
             onPress={() => {
-              console.log("name", name);
-              console.log("description", description);
+              mutate({ name, description });
+              setName("");
+              setDescription("");
               onDismiss();
             }}
           >
