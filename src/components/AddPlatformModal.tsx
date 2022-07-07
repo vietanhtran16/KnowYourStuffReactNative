@@ -9,8 +9,7 @@ interface Props {
 }
 
 export const AddPlatformModal: React.FC<Props> = ({ visible, onDismiss }) => {
-  const [name, setName] = useState(""); // merge this and description into one since they change together
-  const [description, setDescription] = useState("");
+  const [newPlatform, setNewPlatform] = useState({ name: "", description: "" });
   const { mutate, isLoading } = useMutation((newPlatform: NewPlatform) =>
     createPlatform(newPlatform)
   );
@@ -23,24 +22,27 @@ export const AddPlatformModal: React.FC<Props> = ({ visible, onDismiss }) => {
           mode="outlined"
           label="Name"
           placeholder="Name"
-          value={name}
-          onChangeText={(text) => setName(text)}
+          value={newPlatform.name}
+          onChangeText={(text) =>
+            setNewPlatform({ ...newPlatform, name: text })
+          }
         />
         <TextInput
           mode="outlined"
           label="Description"
           placeholder="Description"
-          value={description}
-          onChangeText={(text) => setDescription(text)}
+          value={newPlatform.description}
+          onChangeText={(text) =>
+            setNewPlatform({ ...newPlatform, description: text })
+          }
         />
         <Dialog.Actions>
           <Button onPress={onDismiss}>Cancel</Button>
           <Button
             disabled={isLoading}
             onPress={() => {
-              mutate({ name, description });
-              setName("");
-              setDescription("");
+              mutate(newPlatform);
+              setNewPlatform({ name: "", description: "" });
               onDismiss();
             }}
           >
