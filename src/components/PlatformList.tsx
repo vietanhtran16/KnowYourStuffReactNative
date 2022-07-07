@@ -3,6 +3,7 @@ import { ActivityIndicator, Colors, List } from "react-native-paper";
 import { useQuery } from "react-query";
 import { StyleSheet } from "react-native";
 import { getPlatforms } from "../services/api";
+import { TipList } from "./TipList";
 
 const styles = StyleSheet.create({
   loading: {
@@ -26,7 +27,11 @@ export const PlatformList = () => {
     <List.AccordionGroup>
       {platforms?.map(({ id, name, description }) => (
         <List.Accordion title={name} description={description} id={id}>
-          <List.Item title={`Tips`} />
+          <List.Item
+            title={`New Tip`}
+            right={(props) => <List.Icon {...props} icon="plus" />}
+          />
+          <TipList platformId={id} />
         </List.Accordion>
       ))}
     </List.AccordionGroup>
